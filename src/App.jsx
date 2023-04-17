@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 //import productos from "../productos";
 import Navbar from "./components/Navbar";
 import ProductList from "./components/ProductList";
@@ -9,22 +9,31 @@ import { collection, getDocs } from "firebase/firestore";
 
 function App() {
   //console.log(productos);
-  const [productos, setitems] = useState([]);
-  const itemsRef = collection(db, "mpcit-l");
+  const [productos, setItems] = useState([]);
+  const productosRef = collection(db, "Items");
 
   const getItems = async () => {
-    const itemsCollection = await getDocs(itemsRef);
-    const productos = itemsCollection.docs.map((doc) => ({
+    const productosCollection = await getDocs(productosRef);
+    const productos = productosCollection.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
-
-    console.log(productos);
+    setItems(productos);
+    //console.log(productos);
   };
+  //const productos = productosCollection.docs.map((doc) => ({
+  // ...doc.data(),
+  // id: doc.id,
+
+  //));
+
+  //console.log(productos);
 
   useEffect(() => {
     getItems();
   }, []);
+
+  console.log(productos);
 
   return (
     <div>
